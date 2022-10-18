@@ -4,6 +4,12 @@ SHELL := /bin/bash
 .EXPORT_ALL_VARIABLES:
 CWD := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
 
+PROJECT_NAME := "kafka_protobuf_demo"
+
+COMPOSE_FILE := "docker-compose.yml"
+COMPOSE_FILE_KAFKA := "docker-compose-kafka.yml"
+
+
 .PHONY: build-protoc
 build-protoc:
 	docker build ./docker/protoc -t protoc
@@ -23,3 +29,12 @@ compile-proto:
 
 .PHONY: compile
 compile: stop-protoc compile-proto
+
+.PHONY: up
+up:
+	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_FILE_KAFKA} -p ${PROJECT_NAME} up --detach
+	docker compose -p ${PROJECT_NAME} ps
+
+.PHONY: down
+down:
+	docker compose -p ${PROJECT_NAME} down
