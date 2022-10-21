@@ -26,9 +26,7 @@
 ###################################################################
 kafka:
   brokers:
-    - broker-0.mycompany.com:19092
-    - broker-1.mycompany.com:19092
-    - broker-2.mycompany.com:19092
+    - "broker:29092"
   # clientId: console
   # rackId: # In multi zone Kafka clusters you can reduce traffic costs by consuming messages from replica brokers in the same zone
   # sasl:
@@ -59,9 +57,10 @@ kafka:
   #   keyFilepath:
   #   passphrase: # This can be set via the --kafka.tls.passphrase flag as well
   #   insecureSkipTlsVerify: false
-  # schemaRegistry:
-  #   enabled: false
-  #   urls: [] # Url with scheme is required, e.g. ["http://localhost:8081"]
+  schemaRegistry:
+    enabled: true
+    # https://github.com/redpanda-data/console#redpandakafka-is-running-locally
+    urls: ["http://host.docker.internal:8081"] # Url with scheme is required, e.g. ["http://localhost:8081"]
   #   username: # Basic auth username
   #   password: # Basic auth password. This can be set via the --schema.registry.password flag as well
   #   bearerToken: # This can be set via the --schema.registry.token flag as well
@@ -71,17 +70,17 @@ kafka:
   #     certFilepath:
   #     keyFilepath:  # key should not be encrypted by a passphrase
   #     insecureSkipTlsVerify: false
-  # protobuf:
-  #   enabled: false
+  protobuf:
+    enabled: true
   #   mappings: []
   #     # Map the proto type names for each of your topics. These proto types will be used for deserialization
   #     # - topicName: xy
   #     #   valueProtoType: fake_model.Order # You can specify the proto type for the record key and/or value (just one will work too)
   #     #   keyProtoType: package.Type
   #   # SchemaRegistry does not require any mappings to be specified. The schema registry client configured on the kafka level will be reused.
-  #   schemaRegistry:
-  #     enabled: false
-  #     refreshInterval: 5m
+    schemaRegistry:
+      enabled: true
+      refreshInterval: 5m
   #   # FileSystem can be configured if you want Console to search the local file system for the .proto files
   #   fileSystem:
   #     enabled: false
