@@ -32,9 +32,12 @@ compile: stop-protoc compile-proto
 
 .PHONY: up
 up:
-	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_FILE_KAFKA} -p ${PROJECT_NAME} up --detach
+	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_FILE_KAFKA} -p ${PROJECT_NAME} up --detach --build --force-recreate
 	docker compose -p ${PROJECT_NAME} ps
 
 .PHONY: down
 down:
 	docker compose -p ${PROJECT_NAME} down
+
+.PHONY: restart
+restart: down up
