@@ -22,10 +22,7 @@ async def add_person(request: Request, person: Person):
         {"use.deprecated.format": False},
     )
     message = protobuf_serializer(
-        pb.Person(
-            name=person.name,
-            email=person.email,
-        ),
+        pb.Person(**person.dict()),
         SerializationContext(TOPIC, MessageField.VALUE),
     )
 

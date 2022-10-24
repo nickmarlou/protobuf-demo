@@ -3,8 +3,16 @@ syntax = "proto3";
 package address_book;
 
 message Person {
+  enum Group {
+    FAMILY = 0;
+    FRIENDS = 1;
+    COWORKERS = 2;
+  }
+
   string name = 1;
   string email = 2;
+  string phone = 3;
+  Group group = 4;
 }
 
 message AddressBook {
