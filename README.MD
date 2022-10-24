@@ -10,7 +10,7 @@
 
 *Protocol Buffers* are the flexible, efficient, automated solution to serialize and retrieve structured data. 
 
-With protocol buffers, you write a `.proto` description of the data structure you wish to store. From that, the protocol buffer compiler creates a class that implements automatic encoding and parsing of the protocol buffer data with an efficient binary format. 
+With protocol buffers, you write a `.proto` description of the data structure you wish to store. From that, the *protocol buffer compiler (protoc)* creates a class that implements automatic encoding and parsing of the protocol buffer data with an efficient binary format. 
 
 The generated class:
 - provides getters and setters for the fields that make up a protocol buffer 
@@ -23,10 +23,22 @@ The `.proto` file starts with a package declaration, which helps to prevent nami
 
 Then you define a message for each data structure you want to serialize, then specify a name and a type for each field in the message according to [language guide](https://developers.google.com/protocol-buffers/docs/proto3).
 
-## `Makefile` reference
+## How to start project?
 
-Compile `.proto` files to Python classes. 
+1. Compile `.proto` files to Python classes
 
-```sh
+```
 make compile
+```
+
+2. Start *Kafka* cluster
+
+```
+make up
+```
+
+3. Start *FastAPI* application with *Kafka* producer
+
+```
+make producer
 ```
