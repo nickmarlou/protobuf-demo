@@ -7,8 +7,9 @@ CWD := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
 PROJECT_NAME := "kafka_protobuf_demo"
 
 COMPOSE_FILE := "docker-compose.yml"
-COMPOSE_FILE_KAFKA := "docker-compose-kafka.yml"
 
+
+# Protobuf
 
 .PHONY: build-protoc
 build-protoc:
@@ -30,9 +31,30 @@ compile-proto:
 .PHONY: compile
 compile: stop-protoc compile-proto
 
+# Code style
+
+.PHONY: fmt-isort
+fmt-isort:
+	isort ./demo
+
+.PHONY: fmt-black
+fmt-black:
+	black ./demo
+
+.PHONY: fmt
+fmt: fmt-isort fmt-black
+
+.PHONY: lint-flake8
+lint-flake8:
+	flake8 ./demo
+.PHONY: lint
+lint: lint-flake8
+
+# Application
+
 .PHONY: up
 up:
-	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_FILE_KAFKA} -p ${PROJECT_NAME} up --detach --build --force-recreate
+	docker compose -f ${COMPOSE_FILE} -p ${PROJECT_NAME} up --detach $(opts)
 	docker compose -p ${PROJECT_NAME} ps
 
 .PHONY: down
@@ -41,3 +63,9 @@ down:
 
 .PHONY: restart
 restart: down up
+
+.PHONY: producer
+producer:
+	cd ./demo/producer && \
+	pip install -r ./requirements.txt && \
+	python app.py
