@@ -1,7 +1,7 @@
 import uvicorn
 from aio_producer import AIOProducer
 from api import api_router
-from config import KAFKA_BOOTSTRAP_SERVERS, SCHEMA_REGISTRY_URL
+from config import SCHEMA_REGISTRY_URL
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from fastapi import FastAPI
 
@@ -15,9 +15,7 @@ def create_schema_registry_client():
 
 
 def start_kafka_producer():
-    app.state.producer = AIOProducer(
-        config={"bootstrap.servers": KAFKA_BOOTSTRAP_SERVERS}
-    )
+    app.state.producer = AIOProducer()
 
 
 def stop_kafka_producer() -> None:

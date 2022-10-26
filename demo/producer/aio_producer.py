@@ -1,15 +1,15 @@
 import asyncio
 from threading import Thread
-from typing import Dict, Optional
 
 import confluent_kafka
+from config import PRODUCER_CONFIG
 from confluent_kafka import KafkaException
 
 
 class AIOProducer:
-    def __init__(self, config: Optional[Dict] = None, loop=None):
+    def __init__(self, loop=None):
         self._loop = loop or asyncio.get_event_loop()
-        self._config = config or {"bootstrap.servers": "localhost:9092"}
+        self._config = PRODUCER_CONFIG
 
         self._producer = confluent_kafka.Producer(self._config)
 
