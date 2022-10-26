@@ -9,7 +9,7 @@ PROJECT_NAME := "kafka_protobuf_demo"
 COMPOSE_FILE := "docker-compose.yml"
 
 
-# Protobuf
+# PROTOBUF
 
 .PHONY: build-protoc
 build-protoc:
@@ -31,7 +31,8 @@ compile-proto:
 .PHONY: compile
 compile: stop-protoc compile-proto
 
-# Code style
+
+# FORMATTING AND LINTING
 
 .PHONY: fmt-isort
 fmt-isort:
@@ -47,10 +48,12 @@ fmt: fmt-isort fmt-black
 .PHONY: lint-flake8
 lint-flake8:
 	flake8 ./demo
+	
 .PHONY: lint
 lint: lint-flake8
 
-# Application
+
+# DOCKER
 
 .PHONY: up
 up:
@@ -64,8 +67,20 @@ down:
 .PHONY: restart
 restart: down up
 
+
+# APPLICATION
+
+.PHONY: install
+install:
+	cd ./demo && \
+	pip install -r ./requirements.txt
+
 .PHONY: producer
 producer:
 	cd ./demo/producer && \
-	pip install -r ./requirements.txt && \
-	python app.py
+	python3 app.py
+
+.PHONY: consumer
+consumer:
+	cd ./demo/consumer && \
+	python3 consumer.py
