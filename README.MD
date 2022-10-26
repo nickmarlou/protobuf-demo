@@ -5,6 +5,7 @@
 - [Basic tutorial on Python](https://developers.google.com/protocol-buffers/docs/pythontutorial)
 - [Protocol Buffers Reference (version 3)](https://developers.google.com/protocol-buffers/docs/proto3)
 - [Python generated code reference](https://developers.google.com/protocol-buffers/docs/reference/python-generated)
+- [Confluent Kafka examples on Python](https://github.com/confluentinc/confluent-kafka-python/tree/master/examples)
 
 ## Protocol Buffers 101
 
@@ -41,4 +42,23 @@ make up
 
 ```
 make producer
+```
+
+4. Start consumer
+
+```
+make consumer
+```
+
+5. Send a request to add a person to an address book
+
+```sh
+curl --location --request POST 'http://127.0.0.1:3000/address-book/add-person/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Name",
+    "phone": "+7 (000) 111-22-33",
+    "email": "test@test.ru",
+    "group": 0
+}'
 ```
