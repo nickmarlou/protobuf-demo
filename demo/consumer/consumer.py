@@ -1,9 +1,12 @@
 import proto.address_book_pb2 as pb
+import structlog
 from config import CONSUMER_CONFIG
 from confluent_kafka import Consumer
 from confluent_kafka.schema_registry.protobuf import ProtobufDeserializer
 from confluent_kafka.serialization import MessageField, SerializationContext
 from constants import AddressBookTopic
+
+log = structlog.get_logger()
 
 
 class KafkaConsumer:
@@ -30,9 +33,13 @@ class KafkaConsumer:
                 )
 
                 if person is not None:
-                    message = f"Name: {person.name}. Email: {person.email}. Phone: {person.email}."
-                    print("Hooraaaay!")
-                    print(message)
+                    log.msg(
+                        self._topic,
+                        name=person.name,
+                        email=person.email,
+                        phone=person.phone,
+                        group=person.group,
+                    )
 
             except KeyboardInterrupt:
                 break
