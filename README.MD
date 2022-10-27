@@ -62,3 +62,11 @@ curl --location --request POST 'http://127.0.0.1:3000/address-book/add-person/' 
     "group": 0
 }'
 ```
+
+## Redpanda Console (ex. Kowl)
+
+If you want to explore the Kafka cluster via UI, you can run Redpanda Console (ex. Kowl).
+
+```sh
+make kowl
+```

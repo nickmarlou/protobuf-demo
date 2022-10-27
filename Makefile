@@ -62,10 +62,14 @@ up:
 
 .PHONY: down
 down:
-	docker compose -p ${PROJECT_NAME} down
+	docker compose -p ${PROJECT_NAME} down -v
 
 .PHONY: restart
 restart: down up
+
+.PHONY: logs
+logs:
+	docker compose -f ${COMPOSE_FILE} -p ${PROJECT_NAME} logs --follow
 
 
 # APPLICATION
@@ -77,10 +81,29 @@ install:
 
 .PHONY: producer
 producer:
+	make install && \
 	cd ./demo/producer && \
 	python3 app.py
 
 .PHONY: consumer
 consumer:
+	make install && \
 	cd ./demo/consumer && \
 	python3 consumer.py
+
+
+# REDPANDA CONSOLE
+
+# See: https://github.com/redpanda-data/console#redpandakafka-is-running-locally
+.PHONY: redpanda-console
+redpanda-console:
+	docker run \
+    -p 8080:8080 \
+	--name redpanda-console \
+    -e KAFKA_BROKERS=host.docker.internal:9092 \
+    -e KAFKA_SCHEMAREGISTRY_ENABLED=true \
+    -e KAFKA_SCHEMAREGISTRY_URLS=http://host.docker.internal:8081 \
+    docker.redpanda.com/vectorized/console:latest
+
+.PHONY: kowl
+kowl: redpanda-console

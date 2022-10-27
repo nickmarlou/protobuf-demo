@@ -28,8 +28,8 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_DOCKER:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_DOCKER://host.docker.internal:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
@@ -52,22 +52,6 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:29092"
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8081"
-    networks:
-      - kafka-protobuf-demo
-
-  redpanda-console:
-    image: vectorized/console:latest
-    hostname: redpanda-console
-    container_name: redpanda-console
-    depends_on:
-      - broker
-    ports:
-      - "8080:8080"
-    environment:
-      CONFIG_FILEPATH: /config.yml
-    volumes:
-      # See: https://docs.redpanda.com/docs/console/installation/#configuration
-      - "./docker/redpanda-console/config.yml:/config.yml"
     networks:
       - kafka-protobuf-demo
 
