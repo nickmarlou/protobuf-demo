@@ -1,4 +1,3 @@
-import uvicorn
 from aio_producer import AIOProducer
 from api import api_router
 from config import SCHEMA_REGISTRY_URL
@@ -34,7 +33,3 @@ def shutdown_event():
 
 
 app.include_router(api_router)
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=3000)
