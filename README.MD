@@ -24,7 +24,7 @@ The `.proto` file starts with a package declaration, which helps to prevent nami
 
 Then you define a message for each data structure you want to serialize, then specify a name and a type for each field in the message according to [language guide](https://developers.google.com/protocol-buffers/docs/proto3).
 
-## How to start project?
+## How to run the project?
 
 1. Compile `.proto` files to Python classes
 
@@ -55,6 +55,12 @@ curl --location --request POST 'http://127.0.0.1:3000/address-book/add-person/' 
 
 ```
 make logs-consumer
+```
+
+You'll see message like that
+
+```sh
+2022-10-27 23:26.52 [info] address_book__add_person       email=hi@johndoe.com group=0 name=John Doe phone=+ 1 (555) 111-22-33
 ```
 
 ## Redpanda Console (ex. Kowl)
