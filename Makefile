@@ -7,6 +7,7 @@ CWD := $(shell cd -P -- '$(shell dirname -- "$0")' && pwd -P)
 PROJECT_NAME := "kafka_protobuf_demo"
 
 COMPOSE_FILE := "docker-compose.yml"
+COMPOSE_FILE_KAFKA := "docker-compose-kafka.yml"
 
 
 # PROTOBUF
@@ -57,7 +58,7 @@ lint: lint-flake8
 
 .PHONY: up
 up:
-	docker compose -f ${COMPOSE_FILE} -p ${PROJECT_NAME} up --detach $(opts)
+	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_FILE_KAFKA} -p ${PROJECT_NAME} up --detach $(opts)
 	docker compose -p ${PROJECT_NAME} ps
 
 .PHONY: down
@@ -69,34 +70,22 @@ restart: down up
 
 .PHONY: logs
 logs:
-	docker compose -f ${COMPOSE_FILE} -p ${PROJECT_NAME} logs --follow
+	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_FILE_KAFKA} -p ${PROJECT_NAME} logs --follow
 
+.PHONY: logs-producer
+logs-producer:
+	docker logs producer --follow
 
-# APPLICATION
-
-.PHONY: install
-install:
-	cd ./demo && \
-	pip install -r ./requirements.txt
-
-.PHONY: producer
-producer:
-	make install && \
-	cd ./demo/producer && \
-	python3 app.py
-
-.PHONY: consumer
-consumer:
-	make install && \
-	cd ./demo/consumer && \
-	python3 consumer.py
+.PHONY: logs-consumer
+logs-consumer:
+	docker logs consumer --follow
 
 
 # REDPANDA CONSOLE
 
 # See: https://github.com/redpanda-data/console#redpandakafka-is-running-locally
-.PHONY: redpanda-console
-redpanda-console:
+.PHONY: redpanda-console-up
+redpanda-console-up:
 	docker run \
     -p 8080:8080 \
 	--name redpanda-console \
@@ -105,5 +94,13 @@ redpanda-console:
     -e KAFKA_SCHEMAREGISTRY_URLS=http://host.docker.internal:8081 \
     docker.redpanda.com/vectorized/console:latest
 
-.PHONY: kowl
-kowl: redpanda-console
+.PHONY: redpanda-console-down
+redpanda-console-down:
+	docker stop redpanda-console && \
+	docker rm redpanda-console
+
+.PHONY: kowl-up
+kowl-up: redpanda-console-up
+
+.PHONY: kowl-down
+kowl-down: redpanda-console-down

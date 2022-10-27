@@ -1,4 +1,4 @@
-KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
+KAFKA_BOOTSTRAP_SERVERS = "host.docker.internal:9092"
 
 CONSUMER_CONFIG = {
     "bootstrap.servers": KAFKA_BOOTSTRAP_SERVERS,

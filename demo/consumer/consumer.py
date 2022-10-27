@@ -3,7 +3,11 @@ import structlog
 from config import CONSUMER_CONFIG
 from confluent_kafka import Consumer
 from confluent_kafka.schema_registry.protobuf import ProtobufDeserializer
-from confluent_kafka.serialization import MessageField, SerializationContext
+from confluent_kafka.serialization import (
+    MessageField,
+    SerializationContext,
+    SerializationError,
+)
 from constants import AddressBookTopic
 
 log = structlog.get_logger()
@@ -40,6 +44,9 @@ class KafkaConsumer:
                         phone=person.phone,
                         group=person.group,
                     )
+
+            except SerializationError as e:
+                log.error(e)
 
             except KeyboardInterrupt:
                 break
