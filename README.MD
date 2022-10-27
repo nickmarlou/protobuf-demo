@@ -32,35 +32,29 @@ Then you define a message for each data structure you want to serialize, then sp
 make compile
 ```
 
-2. Start *Kafka* cluster
+2. Start *Kafka* cluster, *FastAPI* app with producer, and consumer
 
 ```
 make up
 ```
 
-3. Start *FastAPI* application with *Kafka* producer
-
-```
-make producer
-```
-
-4. Start consumer
-
-```
-make consumer
-```
-
-5. Send a request to add a person to an address book
+3. Send a request to app with producer
 
 ```sh
 curl --location --request POST 'http://127.0.0.1:3000/address-book/add-person/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "Name",
-    "phone": "+7 (000) 111-22-33",
-    "email": "test@test.ru",
+    "name": "John Doe",
+    "phone": "+ 1 (555) 111-22-33",
+    "email": "hi@johndoe.com",
     "group": 0
 }'
+```
+
+4. Check out the consumer logs
+
+```
+make logs-consumer
 ```
 
 ## Redpanda Console (ex. Kowl)
@@ -68,5 +62,5 @@ curl --location --request POST 'http://127.0.0.1:3000/address-book/add-person/' 
 If you want to explore the Kafka cluster via UI, you can run Redpanda Console (ex. Kowl).
 
 ```sh
-make kowl
+make kowl-up
 ```
