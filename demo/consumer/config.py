@@ -1,4 +1,6 @@
-KAFKA_BOOTSTRAP_SERVERS = "host.docker.internal:9092"
+import os
+
+KAFKA_BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS")
 
 CONSUMER_CONFIG = {
     "bootstrap.servers": KAFKA_BOOTSTRAP_SERVERS,

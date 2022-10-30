@@ -1,5 +1,7 @@
-KAFKA_BOOTSTRAP_SERVERS = "host.docker.internal:9092"
-SCHEMA_REGISTRY_URL = "http://host.docker.internal:8081"
+import os
+
+KAFKA_BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS")
+SCHEMA_REGISTRY_URL = os.environ.get("SCHEMA_REGISTRY_URL")
 
 PRODUCER_CONFIG = {
     "bootstrap.servers": KAFKA_BOOTSTRAP_SERVERS,

@@ -35,13 +35,14 @@ make compile
 2. Start *Kafka* cluster, *FastAPI* app with producer, and consumer
 
 ```
+cp .env-base .env
 make up
 ```
 
 3. Send a request to app with producer
 
 ```sh
-curl --location --request POST 'http://127.0.0.1:3000/address-book/add-person/' \
+curl --location --request POST 'http://localhost:3000/address-book/add-person/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "name": "John Doe",
